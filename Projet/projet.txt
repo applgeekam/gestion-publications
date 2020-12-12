@@ -1,0 +1,65 @@
+    QSqlTableModel model;
+    model.setTable("Rubrique");
+    for(int i = 0; i < 3; ++row)
+    {
+        model.insertRows(i, 1);
+        model.setData(model.index(i, 0), i);
+        model.setData(model.index(i, 1), "rubrique avec model " + QString::number(i));
+        model.submitAll();
+    }
+
+
+delete 
+
+model.setFilter("libelle_rubrique LIKE '% 2'");
+model.select();
+if(model.rowCount() > 0)
+{
+    model.removeRows(0, model.rowCount());
+    model.submitAll();
+}
+
+// On selectionne les enregistrements présents en base de données afin de vérifier que l'on a bien supprimer la rubrique 2.
+QSqlTableModel modelView;
+modelView.setTable("Rubrique");
+modelView.select();
+for(int i = 0; i < modelView.rowCount(); ++i)
+{
+    QSqlRecord record = modelView.record(i);
+    QMessageBox::information(
+        0,
+        QObject::tr("Information récupérée"),
+        "Id : " + QString::number(record.value(0).toInt()) +
+        "\nLibellé : " + record.value(1).toString()
+        );
+}
+
+update 
+int idIndex = model.record().indexOf("id_rubrique");
+int libIndex = model.record().indexOf("libelle_rubrique");
+for(int i = 0; i < model.rowCount(); ++i)
+{
+    QSqlRecord record = model.record(i);
+    record.setValue(libIndex, record.value(libIndex).toString() + " modifié");
+    model.setRecord(i, record);
+    QMessageBox::information(
+        0,
+        QObject::tr("Information récupérée"),
+        "Id : " + QString::number(record.value(idIndex).toInt()) +
+        "\nLibellé : " + record.value(libIndex).toString()
+        );
+}
+
+
+QString QDate::toString ( const QString & format ) const
+ddd MMMM d yy	Sun July 20 69
+dddd
+
+tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+horizontalHeader().setStretchLastSection(True)
+Interactive, Fixed, Stretch, ResizeToContents
+
+header = self.table.horizontalHeader()       
+header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
+header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
+header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
